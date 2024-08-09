@@ -6,8 +6,8 @@ clase UserController {
             nuevo Usuario(3, 'admin', 'admin123'),
             nuevo Usuario(4, 'usuario123', 'contraseña123'),
             nuevo Usuario(5, 'testUser', 'testPassword'),
-            nuevo Usuario(5, 'abel', 'abel123'),
-            nuevo Usuario(6, 'ramiro', '123')
+            nuevo Usuario(6, 'abel', 'abel123'),
+            nuevo Usuario(7, 'ramiro', '123')
         ];
     }
 
