@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=True) %}
+        {% if messages %}
+            <div class="flash-messages">
+                {% for category, message in messages %}
+                    <div class="alert alert-{{ category }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+    {% endwith %}
+    <h2>LOGIN PYTHON</h2>
+    <h2>Abel Mollo Condori</h2>
+    <h2>Usuarios que tienen ACCESO</h2>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>NOMBRE</th>
+            <th>CONTRASEÑA</th>
+        </tr>
+        <tr>
+            <td>1</td>
+            <td>johnDoe</td>
+            <td>password123</td>
+        </tr>
+        <tr>
+            <td>2</td>
+            <td>janeDoe</td>
+            <td>ilovejavascript</td>
+        </tr>
+        <tr>
+            <td>3</td>
+            <td>admin</td>
+            <td>admin123</td>
+        </tr>
+        <tr>
+            <td>4</td>
+            <td>user123</td>
+            <td>pass123</td>
+        </tr>
+        <tr>
+            <td>5</td>
+            <td>testUser</td>
+            <td>testPassword</td>
+        </tr>
+        <tr>
+            <td>6</td>
+            <td>ramiro</td>
+            <td>123</td>
+        </tr>
+        <tr>
+            <td>7</td>
+            <td>abel</td>
+            <td>abel123</td>
+        </tr>
+    </table>
+</body>
+</html>
