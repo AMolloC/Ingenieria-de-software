@@ -2,20 +2,13 @@ const express = require('express');
 
 const UserService = require('./userService');
 
-
-
 const app = express();
 
 const port = 3000;
 
-
-
 app.use(express.json());
 
-
-
 const userService = new UserService();
-
 
 
 app.get('/users', (req, res) => {
@@ -23,7 +16,6 @@ app.get('/users', (req, res) => {
     res.json(userService.getUsers());
 
 });
-
 
 
 app.post('/users', (req, res) => {
