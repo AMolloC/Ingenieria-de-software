@@ -1,65 +1,59 @@
-// controllers/UserController.js
-const UserRepository = require('../repositories/UserRepository');
 const multer = require('multer');
-const path = require('path');
+const UserService = require('../services/UserService');
 
-// Configuración de Multer para subir imágenes
+// Configuración de multer para manejar las subidas de archivos
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, 'uploads/');
+  destination: function (req, file, cb) {
+    cb(null, 'uploads/'); // Carpeta donde se guardarán los archivos subidos
   },
-  filename: (req, file, cb) => {
-    cb(null, `${Date.now()}${path.extname(file.originalname)}`);
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1E9);
+    cb(null, file.fieldname + '-' + uniqueSuffix);
   }
 });
-const upload = multer({ storage });
 
-class UserController { 
-  // Mostrar todos los usuarios
+const upload = multer({ storage: storage });
+
+class UserController {
   static index(req, res) {
-    UserRepository.getAll((err, users) => {
+    UserService.getAllUsers((err, users) => {
       if (err) throw err;
       res.render('users/index', { users });
     });
   }
 
-  // Mostrar formulario de creación
   static create(req, res) {
     res.render('users/create');
   }
 
-  // Guardar nuevo usuario
   static store(req, res) {
     const user = {
       ...req.body,
-      imagen: req.file ? `/uploads/${req.file.filename}` : null,
+      imagen: req.file ? `/uploads/${req.file.filename}` : null, // Se maneja la imagen subida
       updatedAt: new Date()
     };
-    UserRepository.create(user, (err) => {
+    UserService.createUser(user, (err) => {
       if (err) throw err;
       res.redirect('/users');
     });
   }
 
-  // Mostrar un solo usuario
   static show(req, res) {
     const id = req.params.id;
-    UserRepository.getById(id, (err, user) => {
+    UserService.getUserById(id, (err, user) => {
       if (err) throw err;
       res.render('users/show', { user });
     });
   }
 
-  // Mostrar formulario de edición
   static edit(req, res) {
     const id = req.params.id;
-    UserRepository.getById(id, (err, user) => {
+    UserService.getUserById(id, (err, user) => {
       if (err) throw err;
       res.render('users/edit', { user });
     });
   }
 
-  // Actualizar usuario
   static update(req, res) {
     const id = req.params.id;
     const user = {
@@ -67,16 +61,15 @@ class UserController {
       imagen: req.file ? `/uploads/${req.file.filename}` : req.body.oldImagen,
       updatedAt: new Date()
     };
-    UserRepository.update(id, user, (err) => {
+    UserService.updateUser(id, user, (err) => {
       if (err) throw err;
       res.redirect(`/users/${id}`);
     });
   }
 
-  // Eliminar usuario
   static delete(req, res) {
     const id = req.params.id;
-    UserRepository.delete(id, (err) => {
+    UserService.deleteUser(id, (err) => {
       if (err) throw err;
       res.redirect('/users');
     });

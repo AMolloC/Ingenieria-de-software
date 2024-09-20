@@ -5,7 +5,7 @@ class UserRepository {
   static getAll(callback) {
     db.all('SELECT * FROM users', callback);
   }
- 
+
   static getById(id, callback) {
     db.get('SELECT * FROM users WHERE id = ?', [id], callback);
   }
@@ -30,6 +30,21 @@ class UserRepository {
 
   static delete(id, callback) {
     db.run('DELETE FROM users WHERE id = ?', [id], callback);
+  }
+
+  // Método para validar el usuario
+  static validateUser(username, password, callback) {
+    db.get(
+      'SELECT * FROM users WHERE username = ? AND password = ?',
+      [username, password],
+      (err, user) => {
+        if (err) {
+          return callback(err, null);
+        }
+        // Si se encuentra un usuario, lo devolvemos; si no, null
+        return callback(null, user || null);
+      }
+    );
   }
 }
 
